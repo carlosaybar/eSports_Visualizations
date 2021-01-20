@@ -1,0 +1,71 @@
+---
+title: "eSports Visualizations Descriptive"
+author: "Carlos aybar"
+output: html_notebook
+
+---
+
+### install tidyverse package
+```{r}
+install.packages("tidyverse")
+```
+
+
+### load all the necessary libraries
+```{r}
+library(tidyverse)
+library(ggplot2)
+```
+
+### importing the data as a csv and viewing the first five rows
+```{r}
+esport <- read.csv("ESport_Earnings.csv")
+head(esport)
+```
+
+### creating a boxplot that displays the release year for each game
+```{r}
+boxplot(esport$Releaseyear,
+main = "Distribution of games released every year",
+xlab = "Release Year",
+ylab = "Count",
+col = "blue",
+border = "red",
+horizontal = TRUE,
+ylim = c(1980, 2020),
+notch = TRUE
+)
+
+
+```
+
+
+### subseting the date based on Germany as the top country
+### making a histrogram from the new subset with the release year
+
+```{r}
+df <- subset(esport, Top_Country == "Germany")
+
+ggplot(data=df, aes(Releaseyear, col = "blue",
+fill=Genre)) + 
+geom_histogram()+
+   labs(title = "Total games released in Germany since 1980 for each Genre",
+             subtitle = "Source: Esports Earnings by various Professional Gaming Tournaments" ,
+             x = "Release Year",
+             y = "Total Games")        
+ 
+```
+
+
+
+
+# Violin Plot to visualize the distribution of games released in the UK since 1980.
+```{r}
+df <- subset(esport, Top_Country == "United Kingdom")
+ggplot(df, aes(x = Top_Country, y = Releaseyear, color = Genre)) + 
+  geom_violin(show.legend = TRUE) +
+   labs(title = "Total games released in the UK since 1980 for each Genre",
+             subtitle = "Source: Esports Earnings by various Professional Gaming Tournaments" ,
+             x = "Country",
+             y = "Release Year") 
+```
